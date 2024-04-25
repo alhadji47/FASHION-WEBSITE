@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './style.css';
+
 
 function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get('https://www.omdbapi.com/?apikey=your_api_key&s=fashion')
+      .then(response => setData(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Fashion Forward</h1>
       </header>
+      <main>
+        {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
+      </main>
     </div>
   );
 }
